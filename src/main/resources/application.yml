@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: bairro-em-dia
+  profiles:
+    default: local
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+app:
+  jwt:
+    secret: ${JWT_SECRET}
+  cors:
+    origins: ${CORS_ORIGINS:http://localhost:3000}
+  seed:
+    enabled: ${SEED_ENABLED:false}
+    gestor-email: ${GESTOR_EMAIL:gestor@bairro.test}
+    gestor-senha: ${GESTOR_SENHA:}
+    cidadao-email: ${CIDADAO_EMAIL:cidadao@bairro.test}
+    cidadao-senha: ${CIDADAO_SENHA:}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/bairro;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password: ""
+app:
+  jwt:
+    secret: ${JWT_SECRET:chave-local-exclusiva-para-demonstracao-1234567890}
+  seed:
+    enabled: true
+    gestor-senha: ${GESTOR_SENHA:GestorDemo123!}
+    cidadao-senha: ${CIDADAO_SENHA:CidadaoDemo123!}
