@@ -1,6 +1,9 @@
 package br.com.fiap.bairro.config;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.Map;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import javax.crypto.spec.SecretKeySpec;
@@ -70,7 +73,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain security(HttpSecurity http, JwtAuthenticationConverter converter) throws Exception {
+    SecurityFilterChain security(HttpSecurity http, JwtAuthenticationConverter converter, ObjectMapper json) throws Exception {
         return http.csrf(csrf -> csrf.disable())
             .cors(cors -> {})
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -78,7 +81,22 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/auth/cadastro", "/api/auth/login").permitAll()
                 .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated())
-            .oauth2ResourceServer(oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(converter)))
+            .exceptionHandling(erros -> erros.accessDeniedHandler((request, response, erro) ->
+                escreverErro(response, json, 403, "Acesso não permitido.")))
+            .oauth2ResourceServer(oauth -> oauth
+                .authenticationEntryPoint((request, response, erro) ->
+                    escreverErro(response, json, 401, "Token ausente, inválido ou expirado."))
+                .jwt(jwt -> jwt.jwtAuthenticationConverter(converter)))
             .build();
+    }
+
+    private void escreverErro(HttpServletResponse response, ObjectMapper json, int status, String detalhe)
+            throws java.io.IOException {
+        response.setStatus(status);
+        response.setContentType("application/problem+json");
+        if (status == 401) {
+            response.setHeader("WWW-Authenticate", "Bearer");
+        }
+        json.writeValue(response.getOutputStream(), Map.of("type", "about:blank", "status", status, "detail", detalhe));
     }
 }
