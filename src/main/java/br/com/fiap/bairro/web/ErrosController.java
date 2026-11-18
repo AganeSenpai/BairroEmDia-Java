@@ -4,7 +4,6 @@ import br.com.fiap.bairro.service.RegraNegocioException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
-import java.util.Map;
 import java.util.TreeMap;
 import org.springframework.dao.*;
 import org.springframework.http.*;

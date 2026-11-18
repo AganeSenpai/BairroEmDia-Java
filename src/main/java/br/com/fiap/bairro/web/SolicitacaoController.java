@@ -9,7 +9,8 @@ import jakarta.validation.Valid;
 import java.util.Set;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.*;
-import org.springframework.data.web.*;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -83,11 +84,11 @@ public class SolicitacaoController {
             linkTo(SolicitacaoController.class).withRel("colecao"),
             linkTo(CategoriaController.class).slash(solicitacao.categoria().id()).withRel("categoria"));
         if (solicitacao.status() == StatusSolicitacao.ABERTA) {
-            modelo.add(recurso.withRel("atualizar").withType("PUT"));
-            modelo.add(recurso.withRel("excluir").withType("DELETE"));
+            modelo.add(recurso.withRel("atualizar").withTitle("Atualizar via PUT"));
+            modelo.add(recurso.withRel("excluir").withTitle("Excluir via DELETE"));
         }
         if (usuario.gestor()) {
-            modelo.add(recurso.slash("atendimento").withRel("atendimento").withType("PATCH"));
+            modelo.add(recurso.slash("atendimento").withRel("atendimento").withTitle("Atender via PATCH"));
         }
         return modelo;
     }
