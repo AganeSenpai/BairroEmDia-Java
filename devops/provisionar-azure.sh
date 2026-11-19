@@ -3,8 +3,8 @@ set -Eeuo pipefail
 cd "$(dirname "$0")/.."
 RESOURCE_GROUP="${RESOURCE_GROUP:-rg-bairro-em-dia}"
 VM_NAME="${VM_NAME:-vm-bairro-em-dia}"
-LOCATION="${LOCATION:-eastus2}"
-VM_SIZE="${VM_SIZE:-Standard_B2s}"
+LOCATION="${LOCATION:-brazilsouth}"
+VM_SIZE="${VM_SIZE:-Standard_D2s_v4}"
 ADMIN_USER="${ADMIN_USER:-bairroadmin}"
 EVIDENCE_DIR="${EVIDENCE_DIR:-$HOME/bairro-evidencias}"
 mkdir -p "$EVIDENCE_DIR"
@@ -21,7 +21,9 @@ if [[ -n "${SUBSCRIPTION_ID:-}" ]]; then
     az account set --subscription "$SUBSCRIPTION_ID"
 fi
 registrar az version --query '"azure-cli"' -o tsv
-registrar az group create --name "$RESOURCE_GROUP" --location "$LOCATION" -o none
+if [[ $(az group exists --name "$RESOURCE_GROUP" -o tsv) != true ]]; then
+    registrar az group create --name "$RESOURCE_GROUP" --location "$LOCATION" -o none
+fi
 registrar az group show --name "$RESOURCE_GROUP" --query '{nome:name,regiao:location,estado:properties.provisioningState}' -o json
 if az vm show --resource-group "$RESOURCE_GROUP" --name "$VM_NAME" -o none 2>/dev/null; then
     printf 'VM existente encontrada. A evidência original de criação deve ser preservada.\n'

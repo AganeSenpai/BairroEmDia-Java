@@ -23,7 +23,7 @@ O script Azure CLI cria o grupo, a VM Ubuntu e a regra de rede. `az vm run-comma
 git clone https://github.com/AganeSenpai/BairroEmDia-Java.git
 cd BairroEmDia-Java
 az account show --query name -o tsv
-LOCATION=eastus2 VM_SIZE=Standard_B2s bash devops/provisionar-azure.sh
+LOCATION=brazilsouth VM_SIZE=Standard_D2s_v4 bash devops/provisionar-azure.sh
 ```
 
 Escolha a assinatura correta antes de executar. Região e tamanho podem ser definidos por variáveis conforme a disponibilidade da assinatura. O script usa o grupo `rg-bairro-em-dia` e a VM `vm-bairro-em-dia`. A VM e os recursos associados consomem créditos enquanto existirem. A instalação e o build levam alguns minutos.
