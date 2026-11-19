@@ -23,6 +23,7 @@ if [[ ! -d /opt/bairro/.git ]]; then
     git clone https://github.com/AganeSenpai/BairroEmDia-Java.git /opt/bairro
 fi
 cd /opt/bairro
+exec > >(tee -a /var/log/bairro-instalacao.log) 2>&1
 if [[ ! -e .env ]]; then
     umask 077
     {
