@@ -1,0 +1,28 @@
+TRECHO DA EXECUCAO REAL: criacao bem-sucedida da VM por Azure CLI.
+As tentativas anteriores e os detalhes de instalacao foram retirados desta copia publica.
+
+$ az vm create --resource-group rg-bairro-em-dia --name vm-bairro-em-dia --location brazilsouth --image Ubuntu2204 --size Standard_D2s_v4 --admin-username bairroadmin --generate-ssh-keys --authentication-type ssh --nsg-rule NONE --public-ip-sku Standard --storage-sku Standard_LRS --os-disk-size-gb 32 --tags projeto=BairroEmDia disciplina=DevOps --query \{nome:powerState\,ip:publicIpAddress\,grupo:resourceGroup\,local:location\} -o json
+WARNING: Consider upgrading security for your workloads using Azure Trusted Launch VMs. To know more about Trusted Launch, please visit https://aka.ms/TrustedLaunch.
+{
+  "grupo": "rg-bairro-em-dia",
+  "ip": "191.233.232.64",
+  "local": "brazilsouth",
+  "nome": "VM running"
+}
+
+$ az network nsg rule create --resource-group rg-bairro-em-dia --nsg-name vm-bairro-em-diaNSG --name permitir-api --priority 1000 --direction Inbound --access Allow --protocol Tcp --source-address-prefixes Internet --destination-port-ranges 8080 --query \{nome:name\,porta:destinationPortRange\,acesso:access\} -o json
+{
+  "acesso": "Allow",
+  "nome": "permitir-api",
+  "porta": "8080"
+}
+
+$ az vm show -g rg-bairro-em-dia -n vm-bairro-em-dia -d --query \{nome:name\,estado:powerState\,regiao:location\,tamanho:hardwareProfile.vmSize\,ip:publicIps\} -o json
+{
+  "estado": "VM running",
+  "ip": "191.233.232.64",
+  "nome": "vm-bairro-em-dia",
+  "regiao": "brazilsouth",
+  "tamanho": "Standard_D2s_v4"
+}
+

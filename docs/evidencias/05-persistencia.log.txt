@@ -1,0 +1,47 @@
+Enable succeeded: 
+[stdout]
+=== Containers antes da recriação ===
+bac82145e4cbe2cd5163638ee77f6fea249e78dca4501962333e4c5e82e467c5
+6363671e3883074434a7f0592163312012adc09f6be86b82d975a25169bd879f
+POST /api/auth/login -> HTTP 200
+GET /api/solicitacoes/3 -> HTTP 200
+PERSISTENCIA CONFIRMADA: id=3, titulo=Registro para comprovar persistencia
+
+=== Containers depois da recriação ===
+d4fd30464fb9a5a08410aa320b31d3706c21c6d0839e9a03d2bf9e15b36ffd75
+fc09f7dbe69cfd77eace45c7c059af3f34647239d8488d66ea846dfb2ae6cb01
+POST /api/auth/login -> HTTP 200
+GET /api/solicitacoes/3 -> HTTP 200
+PERSISTENCIA CONFIRMADA: id=3, titulo=Registro para comprovar persistencia
+
+=== SELECT direto após recriação ===
+ id |                titulo                | status 
+----+--------------------------------------+--------
+  3 | Registro para comprovar persistencia | ABERTA
+(1 row)
+
+
+[stderr]
+ Container bairro-api-1 Stopping 
+ Container bairro-api-1 Stopped 
+ Container bairro-api-1 Removing 
+ Container bairro-api-1 Removed 
+ Container bairro-banco-1 Stopping 
+ Container bairro-banco-1 Stopped 
+ Container bairro-banco-1 Removing 
+ Container bairro-banco-1 Removed 
+ Network bairro_bairro Removing 
+ Network bairro_bairro Removed 
+ Network bairro_bairro Creating 
+ Network bairro_bairro Created 
+ Container bairro-banco-1 Creating 
+ Container bairro-banco-1 Created 
+ Container bairro-api-1 Creating 
+ Container bairro-api-1 Created 
+ Container bairro-banco-1 Starting 
+ Container bairro-banco-1 Started 
+ Container bairro-banco-1 Waiting 
+ Container bairro-banco-1 Healthy 
+ Container bairro-api-1 Starting 
+ Container bairro-api-1 Started 
+

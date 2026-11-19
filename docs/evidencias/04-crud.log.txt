@@ -1,0 +1,31 @@
+Enable succeeded: 
+[stdout]
+Updating 79d5b0c..0211dfb
+Fast-forward
+ .gitignore                        |  2 +
+ devops/demonstrar-crud.py         | 86 +++++++++++++++++++++++++++++++++++++++
+ devops/demonstrar-persistencia.sh | 22 ++++++++++
+ devops/instalar-docker.sh         |  1 +
+ 4 files changed, 111 insertions(+)
+ create mode 100644 devops/demonstrar-crud.py
+ create mode 100755 devops/demonstrar-persistencia.sh
+POST /api/auth/login -> HTTP 200
+POST /api/auth/login -> HTTP 200
+POST /api/categorias -> HTTP 201
+GET /api/categorias/4 -> HTTP 200
+PUT /api/categorias/4 -> HTTP 200
+POST /api/solicitacoes -> HTTP 201
+GET /api/solicitacoes/2 -> HTTP 200
+PUT /api/solicitacoes/2 -> HTTP 200
+DELETE /api/solicitacoes/2 -> HTTP 204
+GET /api/solicitacoes/2 -> HTTP 404
+DELETE /api/categorias/4 -> HTTP 204
+GET /api/categorias/4 -> HTTP 404
+GET /api/categorias -> HTTP 200
+POST /api/solicitacoes -> HTTP 201
+REGISTRO_PERSISTENCIA=3
+
+[stderr]
+From https://github.com/AganeSenpai/BairroEmDia-Java
+   79d5b0c..0211dfb  main       -> origin/main
+

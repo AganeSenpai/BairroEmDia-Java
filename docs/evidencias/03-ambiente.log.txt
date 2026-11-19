@@ -1,0 +1,58 @@
+Enable succeeded: 
+[stdout]
+
+=== Data UTC ===
+2026-11-19T21:11:18+00:00
+
+=== Commit da aplicação ===
+fc9b32ecd78ea7f5d86dac02b5cc08e23d62cbcf
+
+=== Docker e Compose ===
+Docker version 29.10.0, build fdd4b8e
+Docker Compose version v5.8.0
+
+=== Containers em execução ===
+NAME             IMAGE         COMMAND                  SERVICE   CREATED              STATUS                        PORTS
+bairro-api-1     bairro-api    "java -jar app.jar"      api       About a minute ago   Up About a minute             0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+bairro-banco-1   postgres:17   "docker-entrypoint.s…"   banco     About a minute ago   Up About a minute (healthy)   127.0.0.1:5432->5432/tcp
+
+=== Usuário e diretório da aplicação ===
+uid=999(app) gid=999(app) groups=999(app)
+/app
+
+=== Estrutura do projeto ===
+./Dockerfile
+./devops/coletar-evidencias.sh
+./devops/demonstrar-persistencia.sh
+./devops/instalar-docker.sh
+./devops/provisionar-azure.sh
+./devops/verificar-ambiente.sh
+./docker-compose.yml
+./pom.xml
+
+=== Rede e volume ===
+rede=bairro_bairro ip=172.18.0.3
+tipo=volume volume=bairro_dados-bairro destino=/var/lib/postgresql/data
+
+=== Logs ===
+api-1  | 2026-11-19T21:10:01.454Z  INFO 1 --- [bairro-em-dia] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+api-1  | 2026-11-19T21:10:02.394Z  INFO 1 --- [bairro-em-dia] [nio-8080-exec-1] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 837 ms
+api-1  | 2026-11-19T21:11:03.482Z  INFO 1 --- [bairro-em-dia] [nio-8080-exec-3] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 373 ms
+banco-1  | 2026-11-19 21:09:40.606 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+banco-1  | 2026-11-19 21:09:40.621 UTC [28] LOG:  database system was shut down at 2026-11-19 21:09:38 UTC
+banco-1  | 2026-11-19 21:09:40.631 UTC [1] LOG:  database system is ready to accept connections
+
+=== SELECT direto no PostgreSQL ===
+ id |                titulo                | status | categoria  
+----+--------------------------------------+--------+------------
+  1 | Poste apagado na praça               | ABERTA | Iluminação
+  3 | Registro para comprovar persistencia | ABERTA | Iluminação
+(2 rows)
+
+
+=== Resposta OpenAPI ===
+{'title': 'Bairro em Dia API', 'description': 'CitizenTech para solicitações de zeladoria urbana. Faça login e informe o accessToken no botão Authorize.', 'version': '1.0.0'}
+Rotas: 9
+
+[stderr]
+

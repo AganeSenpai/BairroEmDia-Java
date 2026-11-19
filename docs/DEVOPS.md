@@ -38,6 +38,12 @@ Os arquivos ficam em `~/bairro-evidencias`. Guarde também capturas legíveis do
 
 Para executar comandos na VM pelo Cloud Shell, use `az vm run-command invoke -g rg-bairro-em-dia -n vm-bairro-em-dia --command-id RunShellScript --scripts 'COMANDO' --query 'value[].message' -o tsv`. O comando executa como administrador da VM. Os containers da API continuam com usuário não privilegiado.
 
+## Demonstração validada em 19/11/2026
+
+A VM `vm-bairro-em-dia` foi criada por Azure CLI em `brazilsouth`, com tamanho `Standard_D2s_v4`. O Swagger foi acessado pelo endereço público. O CRUD de categorias e solicitações retornou os códigos esperados. A solicitação de ID 3 foi consultada antes e depois de `docker compose down` e `docker compose up -d`, com os mesmos dados, e confirmada por SELECT direto no PostgreSQL. Os identificadores dos containers mudaram.
+
+As capturas e os registros de execução estão em [evidências](evidencias/README.md). O [roteiro de gravação](ROTEIRO-DEVOPS.md) reúne as telas, os comandos e a narração sugerida.
+
 ## Demonstrar no vídeo
 
 1. Mostre o script Azure CLI e a execução de criação, depois a VM no portal.
