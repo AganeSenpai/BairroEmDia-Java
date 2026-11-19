@@ -14,12 +14,12 @@ printf '\n=== Usuário e diretório da aplicação ===\n'
 docker compose exec -T api id
 docker compose exec -T api pwd
 printf '\n=== Estrutura do projeto ===\n'
-find . -maxdepth 2 -type f ! -path './.git/*' ! -name '.env' | sort
+find . -maxdepth 2 -type f \( -name 'Dockerfile' -o -name 'docker-compose.yml' -o -name 'pom.xml' -o -name '*.sh' \) | sort
 printf '\n=== Rede e volume ===\n'
-docker inspect "$(docker compose ps -q api)" --format '{{json .NetworkSettings.Networks}}'
-docker inspect "$(docker compose ps -q banco)" --format '{{json .Mounts}}'
+docker inspect "$(docker compose ps -q api)" --format '{{range $nome, $rede := .NetworkSettings.Networks}}rede={{$nome}} ip={{$rede.IPAddress}}{{end}}'
+docker inspect "$(docker compose ps -q banco)" --format '{{range .Mounts}}tipo={{.Type}} volume={{.Name}} destino={{.Destination}}{{end}}'
 printf '\n=== Logs ===\n'
-docker compose logs --tail=25 api banco
+docker compose logs --tail=3 api banco
 printf '\n=== SELECT direto no PostgreSQL ===\n'
 docker compose exec -T banco psql -U bairro -d bairro -c \
     'SELECT s.id, s.titulo, s.status, c.nome AS categoria FROM solicitacoes s JOIN categorias c ON c.id = s.categoria_id ORDER BY s.id;'
